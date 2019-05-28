@@ -17,13 +17,13 @@
    * Returns a PDO object connected to the database. If a PDOException is thrown when
    * attempting to connect to the database, responds with a 503 Service Unavailable 
    * error.
-   * @return {PDO} connected to the database upon a succesful connection.
+   * @return {PDO} connected to the database upon a successful connection.
    */
   function get_PDO() {
     # Variables for connections to the database.
     # TODO: Replace with your server (e.g. MAMP) variables as shown in lecture on Friday.
     $host = "";     # fill in with server name (e.g. localhost)
-    $port = ""      # fill in with a port if necessary (will be different mac/pc)
+    $port = "";      # fill in with a port if necessary (will be different mac/pc)
     $user = "";     # fill in with user name
     $password = ""; # fill in with password (will be different mac/pc)
     $dbname = "";   # fill in with db name containing your SQL tables
