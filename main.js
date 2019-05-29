@@ -19,8 +19,14 @@
         let canvasCompStyles = window.getComputedStyle(canvas);
         canvas.width = parseInt(canvasCompStyles.width);
         canvas.height = parseInt(canvasCompStyles.height);
-        setInterval(render, 200, ctx);
-        render(ctx);
+
+        let linkImg = new Image();
+        linkImg.src = "img/sprites/link.png";
+        linkImg.addEventListener("load", () => {
+            let link = new Character(linkImg, 41, 48, 41, 83, 79, 48, 4, 4, 3, 66, 194, 322, 62, 45, 49, 82);
+            setInterval(render, 200, ctx, link);
+            render(ctx, link);
+        });
     }
 
     let i = 0;
@@ -28,21 +34,83 @@
     /**
      * 
      * @param {*} ctx 
+     * @param {Character} char 
      */
-    function render(ctx) {
+    function render(ctx, char) {
         ctx.fillStyle = "#ffffff";
         ctx.imageSmoothingEnabled = false;
-        if (i >= 3) {
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        let curSprite = char.sprites.idle[i];
+        ctx.drawImage(char.spritesheet, curSprite.x, curSprite.y, curSprite.width, curSprite.height, 100, 100, curSprite.width * 2.5, curSprite.height * 2.5);
+        if (i >= char.sprites.idle.length - 1) {
             i = 0;
         } else {
             i++;
         }
-        let img = new Image();
-        img.addEventListener("load", () => {
-            ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            ctx.drawImage(img, 100, 100, img.width * 2.5, img.height * 2.5);
-        });
-        img.src = "img/link/idle_" + i + ".png";
+    }
+
+    /**
+     * 
+     */
+    class Character {
+        /**
+         * 
+         * @param {*} spritesheet 
+         * @param {*} idleOffset 
+         * @param {*} moveOffset 
+         * @param {*} atkOffset 
+         * @param {*} idleShift 
+         * @param {*} moveShift 
+         * @param {*} atkShift 
+         * @param {*} numIdle 
+         * @param {*} numMove 
+         * @param {*} numAtk 
+         * @param {*} yIdle 
+         * @param {*} yMove 
+         * @param {*} yAtk 
+         * @param {*} height 
+         * @param {*} idleWidth 
+         * @param {*} moveWidth 
+         * @param {*} atkWidth 
+         */
+        constructor(spritesheet, idleOffset, moveOffset, atkOffset, idleShift, moveShift, atkShift,
+                    numIdle, numMove, numAtk, yIdle, yMove, yAtk, height, idleWidth, moveWidth,
+                    atkWidth) {
+            this.spritesheet = spritesheet;
+            this.sprites = {};
+            this.sprites[STATE_IDLE] =
+                splitSpritesheet(idleOffset, idleShift, numIdle, yIdle, idleWidth, height);
+            this.sprites[STATE_MOVE] =
+                splitSpritesheet(moveOffset, moveShift, numMove, yMove, moveWidth, height);
+            this.sprites[STATE_ATK] =
+                splitSpritesheet(atkOffset, atkShift, numAtk, yAtk, atkWidth, height);
+            this.state = "idle";
+        }
+    }
+
+    /**
+     * 
+     * @param {*} offset 
+     * @param {*} shift 
+     * @param {*} num 
+     * @param {*} y
+     * @param {*} width 
+     * @param {*} height 
+     * @return {array} - an array of object representing the x, y, width, and height of a subsection
+     *                      of the spritesheet that the sprite is located at
+     */
+    function splitSpritesheet(offset, shift, num, y, width, height) {
+        let res = [];
+        for (let i = 0; i < num; i++) {
+            console.log(res);
+            res.push({
+                x: offset + i * (width + shift),
+                y: y,
+                width: width,
+                height: height
+            });
+        }
+        return res;
     }
 
     /* CSE 154 HELPER FUNCTIONS */
