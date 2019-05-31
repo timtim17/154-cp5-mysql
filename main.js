@@ -20,32 +20,53 @@
         canvas.width = parseInt(canvasCompStyles.width);
         canvas.height = parseInt(canvasCompStyles.height);
 
-        let chars = [];
+        let myChar = undefined;
 
         let linkImg = new Image();
         linkImg.src = "img/sprites/link.png";
         linkImg.addEventListener("load", () => {
-            chars.push(new Character(linkImg, 41, 48, 41, 83, 73, 48, 4, 4, 3, 66, 194, 322, 62, 45, 49, 82));
+            // chars.push();
+            myChar = new Character(linkImg, 41, 42, 41, 83, 79, 48, 4, 4, 3, 66, 194, 322, 62, 45, 49, 82, 200, 200);
+
+            setInterval(render, 125, ctx, [myChar]);
+            render(ctx, [myChar]);
         });
 
-        let pikaImg = new Image();
-        pikaImg.src = "img/sprites/pikachu.png";
-        pikaImg.addEventListener("load", () => {
-            chars.push(new Character(pikaImg, 39, 34, 39, 85, 69, 27, 4, 4, 3, 83, 211, 339, 45, 43, 58, 88));
-        });
+        // let pikaImg = new Image();
+        // pikaImg.src = "img/sprites/pikachu.png";
+        // pikaImg.addEventListener("load", () => {
+        //     chars.push(new Character(pikaImg, 39, 34, 39, 85, 69, 27, 4, 4, 3, 83, 211, 339, 45, 43, 58, 88, 200, 200));
+        // });
 
-        let corrinImg = new Image();
-        corrinImg.src = "img/sprites/corrin.png";
-        corrinImg.addEventListener("load", () => {
-            chars.push(new Character(corrinImg, 40, 25, 40, 86, 62, 15, 4, 4, 3, 59, 187, 315, 69, 42, 66, 99));
-        });
+        // let corrinImg = new Image();
+        // corrinImg.src = "img/sprites/corrin.png";
+        // corrinImg.addEventListener("load", () => {
+        //     chars.push(new Character(corrinImg, 40, 25, 40, 86, 62, 15, 4, 4, 3, 59, 187, 315, 69, 42, 66, 99, 200, 200));
+        // });
 
-        setInterval(render, 100, ctx, chars);
-        render(ctx, chars);
+        document.addEventListener("keydown", event => {
+            if (myChar) {
+                let keyCode = event.keyCode;
+                if (keyCode === 65) {   // left
+                    myChar.setState(STATE_MOVE);
+                    // this.ele.style.transform = "rotateY(180deg)";
+                    myChar.velocityHoriz = -10;
+                } else if (keyCode === 68) {    // right
+                    myChar.setState(STATE_MOVE);
+                    // this.ele.style.transform = "rotateY(0deg)";
+                    myChar.velocityHoriz = 10;
+                }
+            }
+        });
+        document.addEventListener("keyup", () => {
+            if (myChar) {
+                myChar.setState(STATE_IDLE);
+                myChar.velocityHoriz = 0;
+            }
+        });
     }
 
 
-    let t = 0;
     /**
      * 
      * @param {*} ctx 
@@ -55,12 +76,12 @@
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.imageSmoothingEnabled = false;
-        let i = 0;
-        let y = 200 * Math.sin(t) + 400;
-        t += 0.025;
-        chars.forEach(char => char.drawSprite(ctx, 200 + 200 * i++, y));
+        chars.forEach(char => {
+            char.x += char.velocityHoriz;
+            char.drawSprite(ctx);
+        });
         ctx.fillStyle = "#000000";
-        ctx.fillRect(0, y, ctx.canvas.width, 50);
+        ctx.fillRect(0, ctx.canvas.height - 50, ctx.canvas.width, 50);
     }
 
     /**
@@ -86,10 +107,12 @@
          * @param {*} idleWidth 
          * @param {*} moveWidth 
          * @param {*} atkWidth 
+         * @param {*} x 
+         * @param {*} y 
          */
         constructor(spritesheet, idleOffset, moveOffset, atkOffset, idleShift, moveShift, atkShift,
                     numIdle, numMove, numAtk, yIdle, yMove, yAtk, height, idleWidth, moveWidth,
-                    atkWidth) {
+                    atkWidth, x, y) {
             this.spritesheet = spritesheet;
             this.sprites = {};
             this.sprites[STATE_IDLE] =
@@ -100,6 +123,9 @@
                 splitSpritesheet(atkOffset, atkShift, numAtk, yAtk, atkWidth, height);
             this.state = STATE_MOVE;
             this.curSprite = 0;
+            this.x = x;
+            this.y = y;
+            this.velocityHoriz = 0;
         }
 
         /**
@@ -108,16 +134,17 @@
          */
         setState(newState) {
             this.state = newState;
+            this.curSprite = 0;
         }
 
         /**
          * 
          * @param {*} ctx 
          */
-        drawSprite(ctx, x, y) {
+        drawSprite(ctx) {
             let curSprite = this.sprites[this.state][this.curSprite];
             ctx.drawImage(this.spritesheet, curSprite.x, curSprite.y, curSprite.width,
-                curSprite.height, x, y - curSprite.height * 2.5, curSprite.width * 2.5, curSprite.height * 2.5);
+                curSprite.height, this.x, this.y - curSprite.height * 2.5, curSprite.width * 2.5, curSprite.height * 2.5);
             if (this.curSprite >= this.sprites[this.state].length - 1) {
                 this.curSprite = 0;
             } else {
