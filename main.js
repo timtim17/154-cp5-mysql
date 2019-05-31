@@ -25,6 +25,8 @@
         id("form-signup").addEventListener("submit", handleFormSignup);
         qsa("#view-game > button").forEach(btn => btn.addEventListener("click", makeGuess));
         id("btn-again").addEventListener("click", startGame);
+        id("btn-submit").addEventListener("click", submitScore);
+        id("btn-view").addEventListener("click", viewHighScores);
     }
 
     /**
@@ -77,6 +79,10 @@
         qsa("#view-game > button").forEach(btn => btn.disabled = false);
         id("guessed").innerText = 0;
         id("game-over").classList.add(CLASS_HIDDEN);
+        qs("$game-over ul").innerHTML = "";
+        let btnSubmit = id("btn-submit");
+        btnSubmit.innerText = "Submit Score";
+        btnSubmit.disabled = false;
     }
 
     /**
@@ -132,6 +138,54 @@
      */
     function clearError(ele) {
         ele.innerText = "";
+    }
+
+    /**
+     * Gets the score from the counter on the page and sends it to the API to save in the database.
+     */
+    function submitScore() {
+        let body = new FormData();
+        body.append("uid", uid);
+        body.append("score", parseInt(id("guessed").innerText));
+        fetch(URL_SCORES, { mode: "POST", body: body })
+            .then(checkStatus)
+            .then(() => {
+                let btnSubmit = id("btn-submit");
+                btnSubmit.innerText = "Submitted!";
+                btnSubmit.disabled = true;
+            })
+            .then(() => clearError(qs("#view-game .error-text")))
+            .catch(showError(qs("#view-game .error-text"),
+                "There was an issue submitting your score... try again?"));
+    }
+
+    /**
+     * Fetches the high scores from the API to generate the scoreboard elements.
+     */
+    function viewHighScores() {
+        fetch(URL_SCORES)
+            .then(checkStatus)
+            .then(JSON.parse)
+            .then(generateScoreboard)
+            .then(() => clearError(qs("#view-game .error-text")))
+            .catch(showError(qs("#view-game .error-text"),
+                "There was an issue getting the scoreboard... try again?"));
+    }
+
+    /**
+     * Generates list elements from the scores from the API. Assumes that the scores are in
+     * descending order.
+     *
+     * @param {object} scores - The parsed scores object from the API
+     */
+    function generateScoreboard(scores) {
+        let parent = qs("#game-over ul");
+        parent.innerHTML = "";
+        for (let score of scores) {
+            let ele = document.createElement("li");
+            ele.innerText = score.name + " - " + score.score;
+            parent.appendChild(ele);
+        }
     }
 
     /* CSE 154 HELPER FUNCTIONS */
