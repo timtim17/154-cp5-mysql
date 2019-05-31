@@ -38,3 +38,9 @@ body {
 #btn-blue {
     background: #2164ff;
 }
+
+#game-over ol {
+    display: block;
+    margin: auto;
+    width: fit-content;
+}
