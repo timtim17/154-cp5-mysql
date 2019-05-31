@@ -14,7 +14,8 @@ CREATE TABLE players(
     email VARCHAR(50) NOT NULL,
     uid VARCHAR(6) NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE(uname)
+    UNIQUE(uname),
+    UNIQUE(uid)
 );
 
 INSERT INTO players(uname, email, uid)

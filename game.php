@@ -22,7 +22,7 @@
     include "common.php";
 
     define("VALID_COLORS", array("red", "blue"));
-    define("GAME_TA_CHEAT_MODE", true); // always sets cpu guess to red
+    define("GAME_TA_CHEAT_MODE", false); // always sets cpu guess to red
     
     if (isset($_GET["guess"])) {
         $color = $_GET["guess"];

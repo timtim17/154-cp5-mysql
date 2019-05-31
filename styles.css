@@ -23,7 +23,12 @@ body {
 #view-game > button {
     border-radius: 50%;
     height: 100px;
+    transition: background-color 500ms ease;
     width: 100px;
+}
+
+#view-game > button:disabled {
+    background-color: #555555;
 }
 
 #btn-red {
