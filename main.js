@@ -25,7 +25,6 @@
         id("form-signup").addEventListener("submit", handleFormSignup);
         qsa("#view-game > button").forEach(btn => btn.addEventListener("click", makeGuess));
         id("btn-again").addEventListener("click", startGame);
-        switchViewGame();
     }
 
     /**

@@ -13,7 +13,8 @@ CREATE TABLE players(
     uname VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     uid VARCHAR(6) NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE(uname)
 );
 
 INSERT INTO players(uname, email, uid)
