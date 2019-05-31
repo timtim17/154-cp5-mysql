@@ -113,3 +113,67 @@ true
 
 **Error Handling:** Responds with HTTP 400 for any other request type, if the guessed color is not
 valid, or if the guess parameter is missing from a GET request.
+
+## /scores.php
+**Request Format:** /scores.php
+
+**Request Type:** GET
+
+**Returned Data Format**: JSON
+
+**Description:** Returns the top 10 scores on the leaderboard as a JSON array sorted in descending
+order by score. If there are fewer than 10 scores in the database all of the scores are returned.
+
+
+**Example Request:** /scores.php
+
+**Example Response:**
+
+```json
+[
+    {
+        "uname": "mowgli",
+        "score": "17",
+        "time": "2019-06-05 22:22:23"
+    },
+    {
+        "uname": "austin",
+        "score": "15",
+        "time": "2019-05-29 14:44:27"
+    },
+    {
+        "uname": "oposdeo",
+        "score": "14",
+        "time": "2019-06-02 13:22:15"
+    }
+]
+```
+
+## /scores.php  [add]
+**Request Format:** /scores.php
+
+**Request Type:** POST
+
+**Returned Data Format**: Plain Text
+
+**Description:** Adds the given score to the database associated with the given player UID. Does not
+do any checking of the score. Responds with the string "Ok" to show that the requests was
+successful.
+
+
+**Example Request:** /scores.php
+
+Form Data
+
+| Key | Value |
+|-----|-------|
+|uid  |xyz987 |
+|score|5      |
+
+**Example Response:**
+
+```
+Ok
+```
+
+**Error Handling:** Responds with HTTP 400 if missing parameters or the uid does not exist.
