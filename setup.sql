@@ -13,15 +13,14 @@ CREATE TABLE players(
     uname VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     uid VARCHAR(6) NOT NULL,
-    `character` VARCHAR(7) NOT NULL,
     PRIMARY KEY(id)
 );
 
-INSERT INTO players(uname, email, uid, `character`)
-    VALUES ("austin", "ajenchi@uw.edu", "123abc", "link"),
-           ("EndenDragon", "enden@titan.com", "4ghi56", "corrin"),
-           ("oposdeo", "sven@cse154.edu", "fez100", "link"),
-           ("mowgli", "mowgli@cse154.edu", "petit1", "pikachu");
+INSERT INTO players(uname, email, uid)
+    VALUES ("austin", "ajenchi@uw.edu", "123abc"),
+           ("EndenDragon", "enden@titan.com", "4ghi56"),
+           ("oposdeo", "sven@cse154.edu", "fez100"),
+           ("mowgli", "mowgli@cse154.edu", "petit1");
 
 CREATE TABLE scores(
     id INT NOT NULL AUTO_INCREMENT,

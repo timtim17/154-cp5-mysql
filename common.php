@@ -39,4 +39,35 @@
       # TODO: You must handle a DB error (503 Service Unavailable) if an error occurs.
     }
   }
+
+  /**
+   * Outputs the given message in plain text. Kills the script's execution.
+   *
+   * @param {string} $out - The message to output
+   */
+  function output_text($out) {
+    header("Content-Type: text/plain");
+    die($out);
+  }
+
+  /**
+   * Outputs the given message in JSON format. Kills the script's execution.
+   *
+   * @param {string} $arr - The array to output
+   */
+  function output_json($arr) {
+    header("Content-Type: application/json");
+    die(json_encode($arr));
+  }
+
+  /**
+   * Outputs an error with the given HTTP status code and message. Kills the script's execution.
+   *
+   * @param {int} $code - A valid HTTP status code
+   * @param {string} $msg - The error message to output
+   */
+  function output_error($code, $msg) {
+    http_response_code($code);
+    output_text($msg);
+  }
 ?>
