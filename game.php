@@ -22,6 +22,7 @@
     include "common.php";
 
     define("VALID_COLORS", array("red", "blue"));
+    define("GAME_TA_CHEAT_MODE", true); // always sets cpu guess to red
     
     if (isset($_GET["guess"])) {
         $color = $_GET["guess"];
@@ -41,7 +42,9 @@
      * @return {string} either "true" or "false" if the guess matches the cpu's choice
      */
     function make_color_decision($guess) {
-        if ($guess === VALID_COLORS[array_rand(VALID_COLORS)]) {
+        $rand = VALID_COLORS[array_rand(VALID_COLORS)];
+        if ((GAME_TA_CHEAT_MODE && $guess === "red")
+            || (!GAME_TA_CHEAT_MODE && $guess === $rand)) {
             return "true";
         } else {
             return "false";
