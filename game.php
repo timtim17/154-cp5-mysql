@@ -26,15 +26,25 @@
     if (isset($_GET["guess"])) {
         $color = $_GET["guess"];
         if (in_array($color, VALID_COLORS)) {
-            if ($color === VALID_COLORS[array_rand(VALID_COLORS)]) {
-                output_text("true");
-            } else {
-                output_text("false");
-            }
+            output_text(make_color_decision($color));
         } else {
             output_error(400, "Invalid guess - must be either 'red' or 'blue'.");
         }
     } else {
         output_error(400, "Invalid request type or guess parameter missing.");
+    }
+
+    /**
+     * Makes a random choice of color and checks if it matches the given player guess.
+     *
+     * @param {string} $guess - A valid player guess
+     * @return {string} either "true" or "false" if the guess matches the cpu's choice
+     */
+    function make_color_decision($guess) {
+        if ($guess === VALID_COLORS[array_rand(VALID_COLORS)]) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 ?>
