@@ -1,0 +1,82 @@
+<!doctype html>
+
+<!--
+    Austin Jenchi
+    CSE 154 19sp AQ
+    05/31/2019
+    Take 4 of my CP 5, this time a very simple game. This is a single page app, the default view
+    is the "signup"/"login" screen, taking in a user's info and making them an account in the
+    database. After a successful registration (add to database) or login (matched a row in the
+    database), it changes view to the game, a very simple one guessing a button to push. After the
+    game is over the user has the option to add their listing to the high scores.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CP5 - OuttaTime™ Time Waster</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="main.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>OuttaTime&trade; TimeWaster</h1>
+            <h2>A very simple game to waste some time</h2>
+            <small>
+                (AKA <a href="https://i.imgur.com/oHq93JX.png" target="_blank">CP5 attempt 4</a>,
+                electric boogal-our?)
+            </small>
+        </header>
+
+        <main>
+            <section id="view-auth">
+                <h3>Been here before?</h3>
+                <form id="form-login">
+                    <label>
+                        Username:
+                        <input type="text" name="uname" minlength="3" required>
+                    </label>
+                    <button>Login</button>
+                </form>
+                <h3>Need a new account?</h3>
+                <form id="form-signup">
+                    <label>
+                        Username:
+                        <input type="text" name="uname" minlength="3" required>
+                    </label>
+                    <label>
+                        Email:
+                        <input type="email" name="email" minlength="3" required>
+                    </label>
+                    <p>
+                        Wondering where the passwords are? With our SuperStrong&trade;
+                        OuttaTime&trade; security we don't need them <small>(and definitely
+                        not that I'm just out of time... :/)</small>
+                    </p>
+                    <button>Signup</button>
+                </form>
+                <p class="error-text"></p>
+            </section>
+
+            <section id="view-game" class="hidden">
+                <h3>Pick a button, any button!</h3>
+                <p>
+                    The computer will pick a button. Try to pick it's guess! See how many you can
+                    get in a row!
+                </p>
+                <button id="btn-red" type="button"></button>
+                <button id="btn-blue" type="button"></button>
+                <p>You have guessed: <span id="guessed">0</span></p>
+                <div id="game-over" class="hidden">
+                    <p>Game over. Great job!</p>
+                    <p>Would you like to send your score to the leaderboard?</p>
+                    <button id="btn-submit" type="button">Submit Score</button>
+                    <button id="btn-view" type="button">View Leaderboard</button>
+                    <button id="btn-again" type="button">Play Again</button>
+                    <ol><!-- populated by JS --></ol>
+                </div>
+                <p class="error-text"></p>
+            </section>
+        </main>
+    </body>
+</html>

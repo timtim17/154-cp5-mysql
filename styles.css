@@ -1,0 +1,46 @@
+/*
+ * Austin Jenchi
+ * CSE 154 19sp AQ
+ * 05/31/2019
+ * Basic styles for both the signup and game views. Sets the page background and styles for the
+ * different views and how they hide with the hidden class.
+ */
+
+body {
+    background-color: #eeeeee;
+    text-align: center;
+}
+
+.error-text {
+    color: red;
+    font-weight: 600;
+}
+
+.hidden {
+    display: none;
+}
+
+#view-game > button {
+    border-radius: 50%;
+    height: 100px;
+    transition: background-color 500ms ease;
+    width: 100px;
+}
+
+#view-game > button:disabled {
+    background-color: #555555;
+}
+
+#btn-red {
+    background: #e40000;
+}
+
+#btn-blue {
+    background: #2164ff;
+}
+
+#game-over ol {
+    display: block;
+    margin: auto;
+    width: fit-content;
+}
